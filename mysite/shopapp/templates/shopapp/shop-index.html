@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}
+Shop
+{% endblock %}
+
+{% block body %}
+<h1>Hello Shop Index!</h1>
+<div>
+    <ul>
+        {% for name, price product in products %}
+        <li>{{ name }} ({{ name|length }}) for ${{ price }}</li>
+        {{ name|length_is:'7' }}
+        <span>Lucky product!</span>
+        {% empty %}
+        No products here
+        {% endfor %}
+    </ul>
+</div>
+
+
+<div>
+    {% now 'H:i' %}
+</div>
+<div>
+    {% now 'l' as current_weekday %}
+    Today is {{ current_weekday }}
+</div>
+
+{% endblock %}
