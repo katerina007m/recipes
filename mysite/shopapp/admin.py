@@ -3,7 +3,7 @@ from .models import Product
 from django.contrib import admin
 
 
-#@admin.register(Product)
+@admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     # list_display = ('pk', 'name', 'description', 'price', 'discount')
     list_display = ('pk', 'name', 'description_short', 'price', 'discount')
