@@ -4,6 +4,7 @@ from django.http import HttpRequest, HttpResponse
 from django.contrib.auth.models import Group
 from django.utils.translation.template import context_re
 
+from .forms import ProductForm
 from .models import Product, Order
 
 def shop_index(request: HttpRequest) -> HttpResponse:
@@ -29,6 +30,13 @@ def products_list(request: HttpRequest):
         "products": Product.objects.all(),
     }
     return render(request, 'shopapp/products-list.html', context=context)
+
+def create_product(request: HttpRequest)-> HttpResponse:
+    form = ProductForm()
+    context = {
+        "form": form,
+    }
+    return render(request, 'shopapp/create-product.html', context=context)
 
 def orders_list(request: HttpRequest):
     context = {
