@@ -12,11 +12,11 @@
 
             {{ form.as_p }}
 
-            <button type="submit"
+            <button type="submit">
                     Create
             </button>
         </form>
-
-
-    </div>
+    <a href="{% url 'shopapp:products_list' %}"
+    >Back to products list </a>
+        </div>
 {% endblock %}
