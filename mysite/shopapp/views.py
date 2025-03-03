@@ -5,9 +5,10 @@ from django.shortcuts import render, redirect, reverse, get_object_or_404
 from timeit import default_timer
 from django.http import HttpRequest, HttpResponse
 from django.contrib.auth.models import Group
+from django.urls import reverse_lazy
 from django.utils.translation.template import context_re
 from django.views import View
-from django.views.generic import TemplateView, ListView, DeleteView, DetailView
+from django.views.generic import TemplateView, ListView, DeleteView, DetailView, CreateView, UpdateView
 
 from .forms import ProductForm
 from .forms import GroupForm
@@ -55,6 +56,7 @@ class ProductDetailView(DetailView):
     #     }
     #     return render(request, 'shopapp/product-details.html', context=context)
 
+
 class ProductListView(ListView):
     template_name = 'shopapp/products-list.html'
     model = Product
@@ -64,7 +66,6 @@ class ProductListView(ListView):
     #     context = super().get_context_data(**kwargs)
     #     context['products'] = Product.objects.all()
     #     return context
-
 
 
 # def products_list(request: HttpRequest):
@@ -96,6 +97,25 @@ def create_product(request: HttpRequest) -> HttpResponse:
 #         "orders": Order.objects.select_related("user").prefetch_related("products").all(),
 #     }
 #     return render(request, 'shopapp/order_list.html', context=context)
+
+class ProductCreateView(CreateView):
+    model = Product
+    fields = 'name', 'price', 'description', 'discount'
+    # form_class = GroupForm
+    success_url = reverse_lazy("shopapp:products_list")
+
+
+class ProductUpdateView(UpdateView):
+    model = Product
+    fields = 'name', 'price', 'description', 'discount'
+    template_name_suffix = '_update_form'
+
+    def get_success_url(self):
+        return reverse("shopapp:product_details",
+                       kwargs={'pk': self.object.pk},
+                       )
+
+
 class OrderListView(ListView):
     queryset = (
         Order.objects
