@@ -12,6 +12,7 @@
                 <p><a href="{% url 'shopapp:product_details' pk=product.pk %}" >Name: {{ product.name }}</a></p>
                 <p>Price: {{ product.price }}</p>
                 <p>Discount: {% firstof product.discount 'no discount' %}</p>
+                <div style="color: red;">Archived: {{ product.archived }}</div>
                 </div>
             {% endfor %}
 

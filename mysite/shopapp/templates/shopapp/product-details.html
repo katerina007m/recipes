@@ -10,11 +10,17 @@
         <div>Description: <em> {{ product.description }}</em></div>
         <div>Price: {{ product.price }}</div>
         <div>Discount: {{ product.discount }}</div>
+        <div style="color: red;">Archived: {{ product.archived }}</div>
+
 
     </div>
 
     <div>
     <a href="{% url 'shopapp:product_update' pk=product.pk %}">Update product</a>
+    </div>
+
+     <div>
+    <a href="{% url 'shopapp:product_delete' pk=product.pk %}">Archive product</a>
     </div>
 
 

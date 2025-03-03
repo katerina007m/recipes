@@ -3,7 +3,7 @@ from itertools import product
 
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from timeit import default_timer
-from django.http import HttpRequest, HttpResponse
+from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import Group
 from django.urls import reverse_lazy
 from django.utils.translation.template import context_re
@@ -61,6 +61,7 @@ class ProductListView(ListView):
     template_name = 'shopapp/products-list.html'
     model = Product
     context_object_name = 'products'
+    queryset = Product.objects.filter(archived=False)
 
     # def get_context_data(self, **kwargs):
     #     context = super().get_context_data(**kwargs)
@@ -115,6 +116,16 @@ class ProductUpdateView(UpdateView):
                        kwargs={'pk': self.object.pk},
                        )
 
+
+class ProductDeleteView(DeleteView):
+    model = Product
+    success_url = reverse_lazy("shopapp:products_list")
+
+    def form_valid(self, form):
+        success_url = self.get_success_url()
+        self.object.archived = True
+        self.object.save()
+        return HttpResponseRedirect(success_url)
 
 class OrderListView(ListView):
     queryset = (
