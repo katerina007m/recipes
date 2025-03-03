@@ -7,7 +7,7 @@ from django.http import HttpRequest, HttpResponse
 from django.contrib.auth.models import Group
 from django.utils.translation.template import context_re
 from django.views import View
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView, DeleteView, DetailView
 
 from .forms import ProductForm
 from .forms import GroupForm
@@ -43,21 +43,27 @@ class GroupListView(View):
         return redirect(request.path)
 
 
-class ProductDetailView(View):
-    def get(self, request: HttpRequest, pk: int) -> HttpResponse:
-        product = get_object_or_404(Product, pk=pk)
-        context = {
-            "product": product,
-        }
-        return render(request, 'shopapp/product-details.html', context=context)
+class ProductDetailView(DetailView):
+    template_name = 'shopapp/product-details.html'
+    model = Product
+    context_object_name = 'product'
 
-class ProductListView(TemplateView):
+    # def get(self, request: HttpRequest, pk: int) -> HttpResponse:
+    #     product = get_object_or_404(Product, pk=pk)
+    #     context = {
+    #         "product": product,
+    #     }
+    #     return render(request, 'shopapp/product-details.html', context=context)
+
+class ProductListView(ListView):
     template_name = 'shopapp/products-list.html'
+    model = Product
+    context_object_name = 'products'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['products'] = Product.objects.all()
-        return context
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context['products'] = Product.objects.all()
+    #     return context
 
 
 
@@ -85,8 +91,22 @@ def create_product(request: HttpRequest) -> HttpResponse:
     return render(request, 'shopapp/create-product.html', context=context)
 
 
-def orders_list(request: HttpRequest):
-    context = {
-        "orders": Order.objects.select_related("user").prefetch_related("products").all(),
-    }
-    return render(request, 'shopapp/order-list.html', context=context)
+# def orders_list(request: HttpRequest):
+#     context = {
+#         "orders": Order.objects.select_related("user").prefetch_related("products").all(),
+#     }
+#     return render(request, 'shopapp/order_list.html', context=context)
+class OrderListView(ListView):
+    queryset = (
+        Order.objects
+        .select_related("user")
+        .prefetch_related("products")
+    )
+
+
+class OrderDetailView(DetailView):
+    queryset = (
+        Order.objects
+        .select_related("user")
+        .prefetch_related("products")
+    )
