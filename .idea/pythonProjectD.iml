@@ -14,7 +14,7 @@
     <option name="TEMPLATE_FOLDERS">
       <list>
         <option value="$MODULE_DIR$/mysite/shopapp/templates" />
-        <option value="$MODULE_DIR$/mysite/requestdatapp/templates" />
+        <option value="$MODULE_DIR$/mysite/myauth/templates" />
       </list>
     </option>
   </component>
