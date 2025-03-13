@@ -27,6 +27,7 @@ def logout_view(request: HttpRequest) -> HttpResponse:
 class MyLogoutView(LogoutView):
     next_page = reverse_lazy('myauth:login')
 
+
 def set_cookie_view(request: HttpRequest) -> HttpResponse:
     response = HttpResponse("Cookies set")
     response.set_cookie("fizz", "buzz", max_age=3600)
