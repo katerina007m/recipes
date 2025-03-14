@@ -9,6 +9,7 @@ from django.urls import reverse_lazy
 from django.utils.translation.template import context_re
 from django.views import View
 from django.views.generic import TemplateView, ListView, DeleteView, DetailView, CreateView, UpdateView
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
 
 from .forms import ProductForm
 from .forms import GroupForm
@@ -99,7 +100,10 @@ def create_product(request: HttpRequest) -> HttpResponse:
 #     }
 #     return render(request, 'shopapp/order_list.html', context=context)
 
-class ProductCreateView(CreateView):
+class ProductCreateView(UserPassesTestMixin, CreateView):
+    def test_func(self):
+        #return self.request.user.groups.filter(name='secret-group').exists()
+        return self.request.user.is_superuser
     model = Product
     fields = 'name', 'price', 'description', 'discount'
     # form_class = GroupForm
@@ -127,7 +131,9 @@ class ProductDeleteView(DeleteView):
         self.object.save()
         return HttpResponseRedirect(success_url)
 
-class OrderListView(ListView):
+
+
+class OrderListView(LoginRequiredMixin, ListView):
     queryset = (
         Order.objects
         .select_related("user")
@@ -135,7 +141,8 @@ class OrderListView(ListView):
     )
 
 
-class OrderDetailView(DetailView):
+class OrderDetailView(PermissionRequiredMixin, DetailView):
+    permission_required = 'shopapp.view_order'
     queryset = (
         Order.objects
         .select_related("user")
