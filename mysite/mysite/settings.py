@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 
+from django.urls import reverse_lazy
+
 #from django.conf.global_settings import LOGIN_REDIRECT_URL
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -129,5 +131,5 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-LOGIN_REDIRECT_URL = '/admin/'
+LOGIN_REDIRECT_URL = reverse_lazy('myauth:about-me')
 
