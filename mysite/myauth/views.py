@@ -3,7 +3,7 @@ from http.client import responses
 from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.views import LogoutView
-from django.http import HttpRequest, HttpResponse
+from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
 from django.views import View
@@ -82,3 +82,7 @@ def set_session_view(request: HttpRequest) -> HttpResponse:
 def get_session_view(request: HttpRequest) -> HttpResponse:
     value = request.session.get("foobar", "default")  # сохраняем значение в переменной value
     return HttpResponse(f"Session value: {value!r}")  # используем value в ответе
+
+class FooBarView(View):
+    def get(self, request:HttpRequest) -> JsonResponse:
+        return JsonResponse({"foo": "bar", "spam": "eggs"})
