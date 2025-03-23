@@ -16,4 +16,7 @@
     {% else %}
         <h2>User is anonymous</h2>
     {% endif %}
+    <a href="{% url 'myauth:logout' %}">Logout</a>
+    <p></p>
+    <a href="{% url 'home' %}">Proceed to recipe site</a>
 {% endblock %}
