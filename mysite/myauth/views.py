@@ -1,17 +1,9 @@
-from http.client import responses
-
-from django.contrib.auth.decorators import (
-    login_required,
-    permission_required,
-    user_passes_test,
-)
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.views import LogoutView, LoginView
-from django.http import HttpRequest, HttpResponse, JsonResponse
-from django.shortcuts import render, redirect
-from django.urls import reverse, reverse_lazy
-from django.views import View
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.views import LoginView
+from django.http import HttpRequest, HttpResponse
+from django.shortcuts import redirect
+from django.urls import reverse_lazy
 from django.views.generic import TemplateView, CreateView
 
 from .models import Profile
