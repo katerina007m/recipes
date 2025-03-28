@@ -15,5 +15,3 @@ urlpatterns = [
     path("recipe/delete/<int:pk>/", views.recipe_delete, name="recipe_delete"),
     path("recipe/edit/<int:pk>/", views.recipe_edit, name="recipe_edit"),
 ]
-
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
