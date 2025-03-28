@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ recipe.name }}{% endblock %}
+
+{% block content %}
+    <h2>{{ recipe.name }}</h2>
+    <img src="{{ recipe.image.url }}" alt="Изображение рецепта">
+    <p>{{ recipe.description }}</p>
+    <p>{{ recipe.steps }}</p>
+    <p>Время приготовления: {{ recipe.cook_time }} минут</p>
+    <p>Автор: {{ recipe.author.username }}</p>
+    <p>Категории: {% for category in recipe.categories.all %}{{ category.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+    <a href="{% url 'home' %}">Вернуться к списку рецептов</a>
+    <p></p>
+    <a href="{% url 'recipe_edit' recipe.id %}">Изменить</a>
+    <a href="{% url 'recipe_delete' recipe.id %}">Удалить</a>
+{% endblock %}

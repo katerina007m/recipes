@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class MyauthConfig(AppConfig):
+class RecipeSiteConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
-    name = "myauth"
+    name = "recipe_site"
