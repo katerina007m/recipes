@@ -6,6 +6,9 @@ class Category(models.Model):
     name = models.CharField(max_length=100, verbose_name="Название категории")
     description = models.TextField(null=True, blank=True, verbose_name="Описание")
 
+    class Meta:
+        unique_together = (("name",),)
+
     def __str__(self):
         return self.name
 
@@ -24,6 +27,9 @@ class Recipe(models.Model):
     categories = models.ManyToManyField(
         Category, through="RecipeCategory", verbose_name="Категории"
     )
+
+    class Meta:
+        unique_together = (("name", "author"),)
 
     def __str__(self):
         return self.name

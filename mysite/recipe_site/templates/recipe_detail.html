@@ -4,7 +4,9 @@
 
 {% block content %}
     <h2>{{ recipe.name }}</h2>
+    {% if recipe.image %}
     <img src="{{ recipe.image.url }}" alt="Изображение рецепта">
+    {% endif %}
     <p>{{ recipe.description }}</p>
     <p>{{ recipe.steps }}</p>
     <p>Время приготовления: {{ recipe.cook_time }} минут</p>
