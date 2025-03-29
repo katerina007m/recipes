@@ -12,9 +12,24 @@ class AboutMeView(TemplateView):
     template_name = "myauth/about-me.html"
 
     def get(self, request, *args, **kwargs):
+        profiles = Profile.objects.filter(user=request.user)
+        profile = (
+            profiles.first() if len(profiles) > 0 else None
+        )  # superuser may have not profile
         if request.headers.get("Accept") == "application/json":
+            if profile:
+                return JsonResponse(
+                    {
+                        "user": {
+                            "username": profile.user.username,
+                            "email": profile.user.email,
+                            "bio": profile.bio,
+                        }
+                    },
+                    status=200,
+                )
             return JsonResponse(
-                {},
+                {"user": {"username": request.user.username, "bio": "admin"}},
                 status=200,
             )
 
